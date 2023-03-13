@@ -1,0 +1,31 @@
+.conatiner {
+    border: 2px solid black;
+    padding: 20px;
+    width: 70%;
+    margin-left:15%;
+    margin-top:5%;
+
+}
+
+.mer {
+    margin-left:15%;
+}
+.addProduct {
+    color:black;
+    text-decoration: none;
+}
+
+.marginTopAndLeft {
+    margin-left:15%;
+    margin-top:5%;
+
+}
+
+.formAdd {
+    margin-left:15%;
+    border: 2px solid black;
+    padding: 20px;
+    width: 50%;
+    border-radius: 2%;
+    box-shadow:2px 2px;
+}
