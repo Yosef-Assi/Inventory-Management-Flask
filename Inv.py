@@ -226,6 +226,101 @@ def product_balance():
         qry = qry.group_by(ProductMovement.product_id,ProductMovement.to_location)
         productBal2=qry.all()
         return render_template("productBalance.html",productBal=productBal2)
+@app.route("/balance2")
+def product_balance2():
+        all_location=Location.query.all()
+        all_product=Product.query.all()
+        qry = db.session.query(
+            ProductMovement.product_id,
+            ProductMovement.to_location,
+
+            func.sum(ProductMovement.qty),
+            ProductMovement.from_location,
+
+                 )
+        qry = qry.group_by(ProductMovement.product_id,ProductMovement.to_location)
+        productBal2=qry.all()
+
+
+
+        qry2 = db.session.query(
+            ProductMovement.product_id,
+            ProductMovement.to_location,
+
+            func.sum(ProductMovement.qty),
+                 )
+        qry2 = qry2.group_by(ProductMovement.product_id,ProductMovement.to_location)
+        productBal3=qry2.filter(ProductMovement.to_location=="Nablus").all()
+
+
+        qry3 = db.session.query(
+            ProductMovement.product_id,
+            ProductMovement.to_location,
+            func.sum(ProductMovement.qty),
+                 )
+        qry3 = qry3.group_by(ProductMovement.product_id,ProductMovement.to_location)
+        productBal4=qry3.filter(ProductMovement.to_location=="Jenin").all()
+
+
+
+
+        qry4 = db.session.query(
+            ProductMovement.product_id,
+            ProductMovement.to_location,
+            func.sum(ProductMovement.qty),
+                 )
+        qry4 = qry4.group_by(ProductMovement.product_id,ProductMovement.to_location)
+        productBal5=qry4.filter(ProductMovement.to_location=="Tubas").all()
+        
+
+
+        thisdict2 =	{
+                "Nablus": {},
+                "Jenin":{},
+                "Tubas":{}
+
+              
+
+            }
+        print(thisdict2)
+        for i in all_product:
+            print(i.product_id)
+            for j in productBal3:
+                print(j[0])
+                if i.product_id == j[0]:
+
+
+                    thisdict2["Nablus"][i.product_id]=j[2]
+                    break
+                else:
+                    thisdict2["Nablus"][i.product_id]=0
+
+            for j in productBal4:
+                
+                if i.product_id == j[0]:
+
+                    thisdict2["Jenin"][i.product_id]=j[2]
+                    break
+                else:
+                    thisdict2["Jenin"][i.product_id]=0
+            for j in productBal5:
+                
+                if i.product_id == j[0]:
+
+
+                    thisdict2["Tubas"][i.product_id]=j[2]
+                    break
+                else:
+                    thisdict2["Tubas"][i.product_id]=0
+                    
+            
+ 
+
+
+                    
+        print(thisdict2)
+      
+        return render_template("Balance2.html",productBal=productBal2,all_location=all_location,all_product=all_product,productBal3=productBal3,productBal4=productBal4,thisdict2=thisdict2)
 if __name__=="__main__":       
     app.run(debug=True)    
 
